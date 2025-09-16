@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage{bahai-star}
+\usepackage{xcolor}
+
+\title{Bahá'í Star Package Test}
+\author{LaTeX Package Test}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Basic Usage}
+
+Here is a basic Bahá'í star: \bahaistar
+
+Stars in text work well: The \bahaistar{} symbol represents the nine-pointed star.
+
+Multiple stars: \bahaistar{} \bahaistar{} \bahaistar
+
+\section{Command Variants}
+
+Default star: \bahaistar
+
+Explicit outline: \bahaistaroutline
+
+Explicit filled: \bahaistarfilled
+
+Colored red: \bahaistarcolor{red}
+
+Colored blue: \bahaistarcolor{blue}
+
+\section{Background Tests}
+
+White background: \bahaistar
+
+\colorbox{black}{\color{white}Black background: \bahaistar}
+
+\colorbox{red}{Red background: \bahaistar}
+
+\colorbox{blue}{\color{white}Blue background: \bahaistar}
+
+\colorbox{yellow}{Yellow background: \bahaistar}
+
+\section{Unicode Support}
+
+Direct Unicode: 🟙
+
+Package command: \bahaistar
+
+Both should appear identical and copy/paste as the same character.
+
+\section{Size Test}
+
+{\tiny Tiny: \bahaistar}
+{\small Small: \bahaistar}
+{\normalsize Normal: \bahaistar}
+{\large Large: \bahaistar}
+{\Large Large: \bahaistar}
+{\huge Huge: \bahaistar}
+
+\section{Copy/Paste Test}
+
+Select and copy this star: \bahaistar
+
+It should paste as the Unicode character 🟙 (U+1F7D9).
+
+\end{document}

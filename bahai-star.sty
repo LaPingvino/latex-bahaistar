@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{bahai-star}[2025/01/16 v7.0 Bahá'í nine-pointed star symbol with overlay text]
+\ProvidesPackage{bahai-star}[2025/01/16 v0.5 Bahá'í nine-pointed star symbol with overlay text]
 
 \RequirePackage{tikz}
 \RequirePackage{newunicodechar}
@@ -34,10 +34,20 @@
 \DeclareRobustCommand{\bahaistar}{%
   \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
   \raisebox{0.4ex}{%
-    % Clean TikZ star
-    \bahai@drawstar{black}%
-    % Overlay barely visible selectable text using absolute positioning
-    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{black!1}{.}}}}%
+    % TikZ star with integrated selectable overlay
+    \begin{tikzpicture}[baseline=-0.05ex, scale=0.1]
+      \ifbahaistar@filled
+        \fill[black]
+      \else
+        \draw[line width=0.4pt, line join=round, black]
+      \fi
+        (90:1) -- (70:0.4) -- (50:1) -- (30:0.4) -- (10:1) -- (-10:0.4) --
+        (-30:1) -- (-50:0.4) -- (-70:1) -- (-90:0.4) -- (-110:1) -- (-130:0.4) --
+        (-150:1) -- (-170:0.4) -- (170:1) -- (150:0.4) -- (130:1) -- (110:0.4) --
+        cycle;
+      % Barely visible selectable text that scales with the star
+      \node[inner sep=0pt, scale=2, opacity=0.01] at (0,0) {\textcolor{black}{.}};
+    \end{tikzpicture}%
   }%
   \EndAccSupp{}%
 }
@@ -46,16 +56,16 @@
 \newcommand{\bahaistarfilled}{%
   \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
   \raisebox{0.4ex}{%
-    % Clean filled TikZ star
+    % Filled TikZ star with integrated selectable text
     \begin{tikzpicture}[baseline=-0.05ex, scale=0.1]
       \fill[black]
         (90:1) -- (70:0.4) -- (50:1) -- (30:0.4) -- (10:1) -- (-10:0.4) --
         (-30:1) -- (-50:0.4) -- (-70:1) -- (-90:0.4) -- (-110:1) -- (-130:0.4) --
         (-150:1) -- (-170:0.4) -- (170:1) -- (150:0.4) -- (130:1) -- (110:0.4) --
         cycle;
+      % Barely visible selectable text that scales with the star (slightly more visible)
+      \node[inner sep=0pt, scale=2, opacity=0.015] at (0,0) {\textcolor{black}{.}};
     \end{tikzpicture}%
-    % Overlay text (slightly more visible for filled stars)
-    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{black!2}{.}}}}%
   }%
   \EndAccSupp{}%
 }
@@ -64,16 +74,16 @@
 \newcommand{\bahaistaroutline}{%
   \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
   \raisebox{0.4ex}{%
-    % Clean outline TikZ star
+    % Outline TikZ star with integrated selectable text
     \begin{tikzpicture}[baseline=-0.05ex, scale=0.1]
       \draw[line width=0.4pt, line join=round, black]
         (90:1) -- (70:0.4) -- (50:1) -- (30:0.4) -- (10:1) -- (-10:0.4) --
         (-30:1) -- (-50:0.4) -- (-70:1) -- (-90:0.4) -- (-110:1) -- (-130:0.4) --
         (-150:1) -- (-170:0.4) -- (170:1) -- (150:0.4) -- (130:1) -- (110:0.4) --
         cycle;
+      % Barely visible selectable text that scales with the star
+      \node[inner sep=0pt, scale=2, opacity=0.01] at (0,0) {\textcolor{black}{.}};
     \end{tikzpicture}%
-    % Overlay text
-    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{black!1}{.}}}}%
   }%
   \EndAccSupp{}%
 }
@@ -82,10 +92,20 @@
 \newcommand{\bahaistarcolor}[1]{%
   \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
   \raisebox{0.4ex}{%
-    % Clean colored TikZ star
-    \bahai@drawstar{#1}%
-    % Overlay text (use same color at 1% opacity)
-    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{#1!1}{.}}}}%
+    % Colored TikZ star with integrated selectable text
+    \begin{tikzpicture}[baseline=-0.05ex, scale=0.1]
+      \ifbahaistar@filled
+        \fill[#1]
+      \else
+        \draw[line width=0.4pt, line join=round, #1]
+      \fi
+        (90:1) -- (70:0.4) -- (50:1) -- (30:0.4) -- (10:1) -- (-10:0.4) --
+        (-30:1) -- (-50:0.4) -- (-70:1) -- (-90:0.4) -- (-110:1) -- (-130:0.4) --
+        (-150:1) -- (-170:0.4) -- (170:1) -- (150:0.4) -- (130:1) -- (110:0.4) --
+        cycle;
+      % Barely visible selectable text that scales with the star
+      \node[inner sep=0pt, scale=2, opacity=0.01] at (0,0) {\textcolor{#1}{.}};
+    \end{tikzpicture}%
   }%
   \EndAccSupp{}%
 }
