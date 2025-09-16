@@ -1,24 +1,107 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{bahai-star}[2024/09/16 v0.2 Bahá'í nine-pointed star using METAFONT]
+\ProvidesPackage{bahai-star}[2025/01/16 v7.0 Bahá'í nine-pointed star symbol with overlay text]
 
+\RequirePackage{tikz}
 \RequirePackage{newunicodechar}
 \RequirePackage{accsupp}
 
-% Load the METAFONT font (will be generated automatically)
-% Multiple resolutions available: 600, 1200, 2400, 4800 DPI
-% TeX will automatically select the best available resolution for scaling
-\font\bahaistarfont=bahaistar
+% Internal flag for filled version
+\newif\ifbahaistar@filled
+\bahaistar@filledfalse
 
-% Main star command - METAFONT visual that copies as Unicode
-\DeclareRobustCommand{\bahaistar}{%
-  \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}{\bahaistarfont *}\EndAccSupp{}%
+% Package options
+\DeclareOption{filled}{\bahaistar@filledtrue}
+\DeclareOption{outline}{\bahaistar@filledfalse}
+\ProcessOptions\relax
+
+% Core star drawing command (clean, no text)
+\newcommand{\bahai@drawstar}[1]{%
+  \begin{tikzpicture}[baseline=-0.05ex, scale=0.1]
+    % Nine-pointed star with alternating outer (radius 1) and inner (radius 0.4) points
+    \ifbahaistar@filled
+      \fill[#1]
+    \else
+      \draw[line width=0.4pt, line join=round, #1]
+    \fi
+      (90:1) -- (70:0.4) -- (50:1) -- (30:0.4) -- (10:1) -- (-10:0.4) --
+      (-30:1) -- (-50:0.4) -- (-70:1) -- (-90:0.4) -- (-110:1) -- (-130:0.4) --
+      (-150:1) -- (-170:0.4) -- (170:1) -- (150:0.4) -- (130:1) -- (110:0.4) --
+      cycle;
+  \end{tikzpicture}%
 }
 
-% Unicode support - map the proper Bahá'í star Unicode character
-% U+1F7D9 (🟙) to our command
+% Main star command with overlay text for copy/paste
+\DeclareRobustCommand{\bahaistar}{%
+  \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
+  \raisebox{0.4ex}{%
+    % Clean TikZ star
+    \bahai@drawstar{black}%
+    % Overlay barely visible selectable text using absolute positioning
+    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{black!1}{.}}}}%
+  }%
+  \EndAccSupp{}%
+}
+
+% Filled version command
+\newcommand{\bahaistarfilled}{%
+  \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
+  \raisebox{0.4ex}{%
+    % Clean filled TikZ star
+    \begin{tikzpicture}[baseline=-0.05ex, scale=0.1]
+      \fill[black]
+        (90:1) -- (70:0.4) -- (50:1) -- (30:0.4) -- (10:1) -- (-10:0.4) --
+        (-30:1) -- (-50:0.4) -- (-70:1) -- (-90:0.4) -- (-110:1) -- (-130:0.4) --
+        (-150:1) -- (-170:0.4) -- (170:1) -- (150:0.4) -- (130:1) -- (110:0.4) --
+        cycle;
+    \end{tikzpicture}%
+    % Overlay text (slightly more visible for filled stars)
+    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{black!2}{.}}}}%
+  }%
+  \EndAccSupp{}%
+}
+
+% Outline version command (explicit)
+\newcommand{\bahaistaroutline}{%
+  \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
+  \raisebox{0.4ex}{%
+    % Clean outline TikZ star
+    \begin{tikzpicture}[baseline=-0.05ex, scale=0.1]
+      \draw[line width=0.4pt, line join=round, black]
+        (90:1) -- (70:0.4) -- (50:1) -- (30:0.4) -- (10:1) -- (-10:0.4) --
+        (-30:1) -- (-50:0.4) -- (-70:1) -- (-90:0.4) -- (-110:1) -- (-130:0.4) --
+        (-150:1) -- (-170:0.4) -- (170:1) -- (150:0.4) -- (130:1) -- (110:0.4) --
+        cycle;
+    \end{tikzpicture}%
+    % Overlay text
+    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{black!1}{.}}}}%
+  }%
+  \EndAccSupp{}%
+}
+
+% Colored version
+\newcommand{\bahaistarcolor}[1]{%
+  \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}%
+  \raisebox{0.4ex}{%
+    % Clean colored TikZ star
+    \bahai@drawstar{#1}%
+    % Overlay text (use same color at 1% opacity)
+    \rlap{\raisebox{0.1ex}{\hspace{-0.1em}{\fontsize{0.2}{0.2}\selectfont\textcolor{#1!1}{.}}}}%
+  }%
+  \EndAccSupp{}%
+}
+
+% Apply package option to main command
+\ifbahaistar@filled
+  \let\bahaistar\bahaistarfilled
+\fi
+
+% Unicode support - map U+1F7D9 (🟙) to our command
 \newunicodechar{🟙}{\bahaistar}
 
 % Package info
-\PackageInfo{bahai-star}{Using METAFONT font with multiple resolutions (600-4800 DPI)}
+\PackageInfo{bahai-star}{%
+  TikZ-based nine-pointed star with overlay text for copy/paste support. %
+  \ifbahaistar@filled Filled version active.\else Outline version active.\fi%
+}
 
 \endinput

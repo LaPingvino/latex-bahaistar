@@ -7,7 +7,7 @@ set -e  # Exit on any error
 
 # Package information
 PACKAGE_NAME="bahai-star"
-VERSION="0.2"
+VERSION="0.3"
 DATE=$(date +"%Y-%m-%d")
 AUTHOR="Joop Kiefte"
 
@@ -154,7 +154,8 @@ Tested with:
 
 CHANGES
 -------
-v0.2 ($DATE): METAFONT implementation with multiple resolutions (600-4800 DPI)
+v0.3 ($DATE): TikZ vector implementation with exact METAFONT coordinates
+v0.2: METAFONT implementation with multiple resolutions (600-4800 DPI)
 v3.0: TikZ-based implementation
 v2.0: Enhanced Unicode support
 v1.0: Initial release
