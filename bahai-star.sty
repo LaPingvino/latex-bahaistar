@@ -1,0 +1,22 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bahai-star}[2025/01/16 v4.0 Bahá'í nine-pointed star using METAFONT]
+
+\RequirePackage{newunicodechar}
+\RequirePackage{accsupp}
+
+% Load the METAFONT font (will be generated automatically)
+\font\bahaistarfont=bahaistar
+
+% Main star command - METAFONT visual that copies as Unicode
+\DeclareRobustCommand{\bahaistar}{%
+  \BeginAccSupp{method=hex,unicode,ActualText=D83DDFD9}{\bahaistarfont *}\EndAccSupp{}%
+}
+
+% Unicode support - map the proper Bahá'í star Unicode character
+% U+1F7D9 (🟙) to our command
+\newunicodechar{🟙}{\bahaistar}
+
+% Package info
+\PackageInfo{bahai-star}{Using METAFONT font for nine-pointed star symbol}
+
+\endinput
