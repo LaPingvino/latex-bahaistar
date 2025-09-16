@@ -7,7 +7,7 @@ set -e  # Exit on any error
 
 # Package information
 PACKAGE_NAME="bahai-star"
-VERSION="4.0"
+VERSION="0.1"
 DATE=$(date +"%Y-%m-%d")
 AUTHOR="Joop Kiefte"
 
