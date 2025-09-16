@@ -14,7 +14,9 @@
           src = ./.;
 
           buildInputs = with pkgs; [
-            texlive.combined.scheme-medium
+            (texlive.combine {
+              inherit (texlive) scheme-medium newunicodechar accsupp;
+            })
             zip
             gnutar
             gzip
@@ -47,7 +49,9 @@
 
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-          texlive.combined.scheme-medium
+          (texlive.combine {
+            inherit (texlive) scheme-medium newunicodechar accsupp;
+          })
           zip
         ];
 
