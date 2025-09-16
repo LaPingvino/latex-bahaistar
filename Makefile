@@ -34,7 +34,12 @@ clean:
 distclean: clean
 	rm -f test.pdf
 
-# Create package distribution
+# Create CTAN release package
+.PHONY: ctan-release
+ctan-release:
+	./release.sh
+
+# Legacy distribution target
 .PHONY: dist
 dist:
 	mkdir -p bahai-star
@@ -45,16 +50,22 @@ dist:
 	tar -czf bahai-star.tar.gz bahai-star/
 	rm -rf bahai-star/
 
+# Release alias
+.PHONY: release
+release: ctan-release
+
 # Help target
 .PHONY: help
 help:
 	@echo "Available targets:"
-	@echo "  all        - Build test document (default)"
-	@echo "  test       - Compile test.tex with pdflatex"
-	@echo "  test-xe    - Compile test.tex with xelatex"
-	@echo "  test-lua   - Compile test.tex with lualatex"
-	@echo "  view       - Build and open test.pdf"
-	@echo "  clean      - Remove auxiliary files"
-	@echo "  distclean  - Remove all generated files"
-	@echo "  dist       - Create distribution package"
-	@echo "  help       - Show this help"
+	@echo "  all          - Build test document (default)"
+	@echo "  test         - Compile test.tex with pdflatex"
+	@echo "  test-xe      - Compile test.tex with xelatex"
+	@echo "  test-lua     - Compile test.tex with lualatex"
+	@echo "  view         - Build and open test.pdf"
+	@echo "  clean        - Remove auxiliary files"
+	@echo "  distclean    - Remove all generated files"
+	@echo "  ctan-release - Create CTAN release package (ZIP)"
+	@echo "  release      - Alias for ctan-release"
+	@echo "  dist         - Create legacy distribution package"
+	@echo "  help         - Show this help"

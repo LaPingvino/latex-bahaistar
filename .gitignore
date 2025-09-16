@@ -87,12 +87,16 @@ acs-*.bib
 # fixme
 *.lox
 
-# feynmf/feynmp
-*.mf
+# feynmf/feynmp (but keep our bahaistar font files)
 *.mp
 *.t[1-9]
 *.t[1-9][0-9]
+# Exclude METAFONT files except our package files
+*.mf
+!bahaistar.mf
+# Exclude TFM files except our package files
 *.tfm
+!bahaistar.tfm
 
 #(r)(e)ledmac/(r)(e)ledpar
 *.end
@@ -324,3 +328,18 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+## CTAN Release Build Artifacts
+# Release build directories
+ctan-release/
+dist/
+ctan-package/
+
+# Release packages
+*.zip
+*.tar.gz
+*.tds.zip
+*.sha256
+
+# Backup files from release script
+*.backup

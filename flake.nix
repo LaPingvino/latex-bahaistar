@@ -8,25 +8,57 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
+      packages.${system} = {
+        ctan-release = pkgs.stdenv.mkDerivation {
+          name = "bahai-star-ctan-4.0";
+          src = ./.;
+
+          buildInputs = with pkgs; [
+            texlive.combined.scheme-medium
+            zip
+            gnutar
+            gzip
+          ];
+
+          buildPhase = ''
+            # Test the package first
+            pdflatex test.tex
+
+            # Run the release script
+            bash release.sh <<< "y"
+          '';
+
+          installPhase = ''
+            mkdir -p $out
+            cp -r dist/* $out/
+
+            # Also include the source files for reference
+            mkdir -p $out/src
+            cp *.sty *.mf *.tfm *.600pk test.tex LICENSE README.md $out/src/
+          '';
+
+          meta = with pkgs.lib; {
+            description = "CTAN release package for Bahá'í Star LaTeX package";
+            license = licenses.mit;
+            maintainers = [ "Joop Kiefte" ];
+          };
+        };
+      };
+
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           texlive.combined.scheme-medium
-          fontconfig
-          noto-fonts
-          fontforge
-          python3Packages.fonttools
+          zip
         ];
 
-        # Make system fonts available and prepare for manual font export
         shellHook = ''
-          export FONTCONFIG_PATH=${pkgs.fontconfig.out}/etc/fonts
-          fc-cache -fv
-          echo "Available Noto fonts:"
-          fc-list : family | grep -i noto | head -10
+          echo "Bahá'í Star LaTeX Package Development Environment"
           echo ""
-          echo "Ready for manual font export."
-          echo "Please export the Bahá'í star glyph (U+1F7D9) from Noto Sans Symbols 2"
-          echo "and provide the font file for inclusion in the package."
+          echo "Available commands:"
+          echo "  make test        - Test the package with pdfLaTeX"
+          echo "  make release     - Create CTAN release package"
+          echo "  nix build .#ctan-release - Build release with Nix"
+          echo ""
         '';
       };
     };
