@@ -7,7 +7,7 @@ set -e  # Exit on any error
 
 # Package information
 PACKAGE_NAME="bahai-star"
-VERSION="0.1"
+VERSION="0.2"
 DATE=$(date +"%Y-%m-%d")
 AUTHOR="Joop Kiefte"
 
@@ -59,7 +59,11 @@ cp bahai-star.sty "$PACKAGE_DIR/"
 cp bahaistar.mf "$PACKAGE_DIR/"
 cp bahaistar.tfm "$PACKAGE_DIR/"
 cp bahaistar.600pk "$PACKAGE_DIR/"
+cp bahaistar.1200pk "$PACKAGE_DIR/" 2>/dev/null || true
+cp bahaistar.2400pk "$PACKAGE_DIR/" 2>/dev/null || true
+cp bahaistar.4800pk "$PACKAGE_DIR/" 2>/dev/null || true
 cp test.tex "$PACKAGE_DIR/"
+cp test-centered.tex "$PACKAGE_DIR/" 2>/dev/null || true
 cp LICENSE "$PACKAGE_DIR/"
 
 # Create CTAN-style README
@@ -124,7 +128,11 @@ bahai-star.sty     - LaTeX package file
 bahaistar.mf       - METAFONT source for the star glyph
 bahaistar.tfm      - TeX font metrics file
 bahaistar.600pk    - Precompiled bitmap font (600 DPI)
-test.tex           - Example document
+bahaistar.1200pk   - High-resolution bitmap font (1200 DPI)
+bahaistar.2400pk   - High-resolution bitmap font (2400 DPI)
+bahaistar.4800pk   - Ultra-high-resolution bitmap font (4800 DPI)
+test.tex           - Basic usage example
+test-centered.tex  - Large-scale display test with multiple resolutions
 README             - This file
 LICENSE            - MIT license text
 
@@ -146,7 +154,7 @@ Tested with:
 
 CHANGES
 -------
-v4.0 ($DATE): METAFONT implementation with Unicode support
+v0.2 ($DATE): METAFONT implementation with multiple resolutions (600-4800 DPI)
 v3.0: TikZ-based implementation
 v2.0: Enhanced Unicode support
 v1.0: Initial release
@@ -178,15 +186,19 @@ Source files:
 Font files:
   bahaistar.tfm    - TeX font metrics file
   bahaistar.600pk  - Precompiled bitmap font (600 DPI)
+  bahaistar.1200pk - High-resolution bitmap font (1200 DPI)
+  bahaistar.2400pk - High-resolution bitmap font (2400 DPI)
+  bahaistar.4800pk - Ultra-high-resolution bitmap font (4800 DPI)
 
 Examples:
-  test.tex         - Example document demonstrating usage
+  test.tex         - Basic usage example
+  test-centered.tex - Large-scale display test with multiple resolutions
 
 Installation directories:
   bahai-star.sty   → tex/latex/bahai-star/
   bahaistar.mf     → fonts/source/public/bahai-star/
   bahaistar.tfm    → fonts/tfm/public/bahai-star/
-  bahaistar.600pk  → fonts/pk/public/bahai-star/
+  bahaistar.*.pk   → fonts/pk/public/bahai-star/
 
 Total: $(ls -1 "$PACKAGE_DIR" | wc -l) files
 EOF
@@ -230,8 +242,9 @@ mkdir -p "$TDS_DIR"/{tex/latex,fonts/{source,tfm,pk}/public,doc/latex}/"$PACKAGE
 cp "$PACKAGE_DIR/bahai-star.sty" "$TDS_DIR/tex/latex/$PACKAGE_NAME/"
 cp "$PACKAGE_DIR/bahaistar.mf" "$TDS_DIR/fonts/source/public/$PACKAGE_NAME/"
 cp "$PACKAGE_DIR/bahaistar.tfm" "$TDS_DIR/fonts/tfm/public/$PACKAGE_NAME/"
-cp "$PACKAGE_DIR/bahaistar.600pk" "$TDS_DIR/fonts/pk/public/$PACKAGE_NAME/"
+cp "$PACKAGE_DIR"/bahaistar.*.pk "$TDS_DIR/fonts/pk/public/$PACKAGE_NAME/" 2>/dev/null || true
 cp "$PACKAGE_DIR"/{README,LICENSE,MANIFEST,test.tex} "$TDS_DIR/doc/latex/$PACKAGE_NAME/"
+cp "$PACKAGE_DIR"/test-centered.tex "$TDS_DIR/doc/latex/$PACKAGE_NAME/" 2>/dev/null || true
 
 cd "$BUILD_DIR"
 if command -v zip >/dev/null 2>&1; then

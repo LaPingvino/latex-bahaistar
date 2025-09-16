@@ -1,10 +1,12 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{bahai-star}[2024/09/16 v0.1 Bahá'í nine-pointed star using METAFONT]
+\ProvidesPackage{bahai-star}[2024/09/16 v0.2 Bahá'í nine-pointed star using METAFONT]
 
 \RequirePackage{newunicodechar}
 \RequirePackage{accsupp}
 
 % Load the METAFONT font (will be generated automatically)
+% Multiple resolutions available: 600, 1200, 2400, 4800 DPI
+% TeX will automatically select the best available resolution for scaling
 \font\bahaistarfont=bahaistar
 
 % Main star command - METAFONT visual that copies as Unicode
@@ -17,6 +19,6 @@
 \newunicodechar{🟙}{\bahaistar}
 
 % Package info
-\PackageInfo{bahai-star}{Using METAFONT font for nine-pointed star symbol}
+\PackageInfo{bahai-star}{Using METAFONT font with multiple resolutions (600-4800 DPI)}
 
 \endinput
