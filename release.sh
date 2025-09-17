@@ -6,8 +6,8 @@
 set -e  # Exit on any error
 
 # Package information
-PACKAGE_NAME="bahai-star"
-VERSION="4.0"
+PACKAGE_NAME="bahaistar"
+VERSION="0.1"
 DATE=$(date +"%Y-%m-%d")
 AUTHOR="Joop Kiefte"
 
@@ -41,8 +41,8 @@ log_error() {
 }
 
 # Check if we're in the right directory
-if [[ ! -f "bahai-star.sty" ]]; then
-    log_error "bahai-star.sty not found. Please run this script from the project root."
+if [[ ! -f "bahaistar.sty" ]]; then
+    log_error "bahaistar.sty not found. Please run this script from the project root."
     exit 1
 fi
 
@@ -55,11 +55,11 @@ mkdir -p "$PACKAGE_DIR" "$DIST_DIR"
 
 # Copy essential package files
 log_info "Copying package files..."
-cp bahai-star.sty "$PACKAGE_DIR/"
+cp bahaistar.sty "$PACKAGE_DIR/"
 cp bahaistar.mf "$PACKAGE_DIR/"
 cp bahaistar.tfm "$PACKAGE_DIR/"
 cp bahaistar.600pk "$PACKAGE_DIR/"
-cp test.tex "$PACKAGE_DIR/"
+cp bahaistar-example.tex "$PACKAGE_DIR/"
 cp LICENSE "$PACKAGE_DIR/"
 
 # Create CTAN-style README
@@ -86,7 +86,7 @@ $VERSION ($DATE)
 
 DESCRIPTION
 -----------
-The bahai-star package provides:
+The bahaistar package provides:
 - \bahaistar command for inserting the nine-pointed star symbol
 - Automatic Unicode mapping for U+1F7D9 (🟙)
 - METAFONT-based high-quality glyph rendering
@@ -95,15 +95,15 @@ The bahai-star package provides:
 
 INSTALLATION
 ------------
-1. Copy bahai-star.sty to your LaTeX tree under tex/latex/bahai-star/
-2. Copy bahaistar.mf to your METAFONT tree under fonts/source/public/bahai-star/
-3. Copy bahaistar.tfm to your font tree under fonts/tfm/public/bahai-star/
+1. Copy bahaistar.sty to your LaTeX tree under tex/latex/bahaistar/
+2. Copy bahaistar.mf to your METAFONT tree under fonts/source/public/bahaistar/
+3. Copy bahaistar.tfm to your font tree under fonts/tfm/public/bahaistar/
 4. If using a precompiled font, copy bahaistar.600pk to fonts/pk/
 5. Refresh your TeX filename database (e.g., texhash or mktexlsr)
 
 USAGE
 -----
-\usepackage{bahai-star}
+\usepackage{bahaistar}
 
 Then use:
 - \bahaistar for the nine-pointed star symbol
@@ -112,7 +112,7 @@ Then use:
 EXAMPLE
 -------
 \documentclass{article}
-\usepackage{bahai-star}
+\usepackage{bahaistar}
 \begin{document}
 The Bahá'í star: \bahaistar
 Unicode: 🟙
@@ -120,11 +120,11 @@ Unicode: 🟙
 
 FILES
 -----
-bahai-star.sty     - LaTeX package file
+bahaistar.sty     - LaTeX package file
 bahaistar.mf       - METAFONT source for the star glyph
 bahaistar.tfm      - TeX font metrics file
 bahaistar.600pk    - Precompiled bitmap font (600 DPI)
-test.tex           - Example document
+bahaistar-example.tex           - Example document
 README             - This file
 LICENSE            - MIT license text
 
@@ -146,13 +146,10 @@ Tested with:
 
 CHANGES
 -------
-v4.0 ($DATE): METAFONT implementation with Unicode support
-v3.0: TikZ-based implementation
-v2.0: Enhanced Unicode support
-v1.0: Initial release
+v0.1 ($DATE): METAFONT implementation with Unicode support
 
 For more information and updates, see:
-https://ctan.org/pkg/bahai-star
+https://ctan.org/pkg/bahaistar
 
 CONTACT
 -------
@@ -162,7 +159,7 @@ EOF
 # Create MANIFEST file
 log_info "Creating MANIFEST..."
 cat > "$PACKAGE_DIR/MANIFEST" << EOF
-MANIFEST for bahai-star package ($VERSION)
+MANIFEST for bahaistar package ($VERSION)
 
 The following files are included in this distribution:
 
@@ -172,7 +169,7 @@ Documentation:
   MANIFEST         - This file
 
 Source files:
-  bahai-star.sty   - Main LaTeX package file
+  bahaistar.sty   - Main LaTeX package file
   bahaistar.mf     - METAFONT source for the star glyph
 
 Font files:
@@ -180,13 +177,13 @@ Font files:
   bahaistar.600pk  - Precompiled bitmap font (600 DPI)
 
 Examples:
-  test.tex         - Example document demonstrating usage
+  bahaistar-example.tex         - Example document demonstrating usage
 
 Installation directories:
-  bahai-star.sty   → tex/latex/bahai-star/
-  bahaistar.mf     → fonts/source/public/bahai-star/
-  bahaistar.tfm    → fonts/tfm/public/bahai-star/
-  bahaistar.600pk  → fonts/pk/public/bahai-star/
+  bahaistar.sty   → tex/latex/bahaistar/
+  bahaistar.mf     → fonts/source/public/bahaistar/
+  bahaistar.tfm    → fonts/tfm/public/bahaistar/
+  bahaistar.600pk  → fonts/pk/public/bahaistar/
 
 Total: $(ls -1 "$PACKAGE_DIR" | wc -l) files
 EOF
@@ -194,7 +191,7 @@ EOF
 # Test the package
 log_info "Testing the package..."
 cd "$PACKAGE_DIR"
-if pdflatex test.tex > test_output.log 2>&1; then
+if pdflatex bahaistar-example.tex > test_output.log 2>&1; then
     log_success "Package test completed successfully"
     rm -f test.aux test.log test.pdf test_output.log
 else
@@ -227,11 +224,11 @@ TDS_DIR="$BUILD_DIR/tds"
 mkdir -p "$TDS_DIR"/{tex/latex,fonts/{source,tfm,pk}/public,doc/latex}/"$PACKAGE_NAME"
 
 # Copy files to TDS structure
-cp "$PACKAGE_DIR/bahai-star.sty" "$TDS_DIR/tex/latex/$PACKAGE_NAME/"
+cp "$PACKAGE_DIR/bahaistar.sty" "$TDS_DIR/tex/latex/$PACKAGE_NAME/"
 cp "$PACKAGE_DIR/bahaistar.mf" "$TDS_DIR/fonts/source/public/$PACKAGE_NAME/"
 cp "$PACKAGE_DIR/bahaistar.tfm" "$TDS_DIR/fonts/tfm/public/$PACKAGE_NAME/"
 cp "$PACKAGE_DIR/bahaistar.600pk" "$TDS_DIR/fonts/pk/public/$PACKAGE_NAME/"
-cp "$PACKAGE_DIR"/{README,LICENSE,MANIFEST,test.tex} "$TDS_DIR/doc/latex/$PACKAGE_NAME/"
+cp "$PACKAGE_DIR"/{README,LICENSE,MANIFEST,bahaistar-example.tex} "$TDS_DIR/doc/latex/$PACKAGE_NAME/"
 
 cd "$BUILD_DIR"
 if command -v zip >/dev/null 2>&1; then

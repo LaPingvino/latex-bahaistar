@@ -4,14 +4,14 @@ A minimal LaTeX package for the Bahá'í nine-pointed star symbol 🟙 (U+1F7D9)
 
 ## Files Needed
 
-1. `bahai-star.sty` - The package file (see full code below)
-2. `test.tex` - Minimal test document
+1. `bahaistar.sty` - The package file (see full code below)
+2. `bahaistar-example.tex` - Minimal test document
 
-## Minimal Package (`bahai-star.sty`)
+## Minimal Package (`bahaistar.sty`)
 
 ```latex
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{bahai-star}[2025/01/16 v1.0 Bahá'í nine-pointed star]
+\ProvidesPackage{bahaistar}[2025/09/17 v0.1 Bahá'í nine-pointed star]
 
 \RequirePackage{tikz}
 \RequirePackage{newunicodechar}
@@ -33,11 +33,11 @@ A minimal LaTeX package for the Bahá'í nine-pointed star symbol 🟙 (U+1F7D9)
 \endinput
 ```
 
-## Test Document (`test.tex`)
+## Test Document (`bahaistar-example.tex`)
 
 ```latex
 \documentclass{article}
-\usepackage{bahai-star}
+\usepackage{bahaistar}
 
 \begin{document}
 
@@ -60,7 +60,7 @@ Unicode input: 🟙
 nix-shell -p texlive.combined.scheme-medium
 
 # Compile
-pdflatex test.tex
+pdflatex bahaistar-example.tex
 ```
 
 ### Option 2: With flake.nix
@@ -90,7 +90,7 @@ Create `flake.nix`:
 Then:
 ```bash
 nix develop
-pdflatex test.tex
+pdflatex bahaistar-example.tex
 ```
 
 
